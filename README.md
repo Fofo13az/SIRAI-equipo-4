@@ -1,5 +1,27 @@
 # SIRAI — Sistema Institucional de Registro Rápido de Asistencia
 
+> **About this fork** — This is my fork of the team repository ([brinez-juan/SIRAI-equipo-4](https://github.com/brinez-juan/SIRAI-equipo-4)), kept for my portfolio. SIRAI is a university project built by a team of 4 with ISSSTE as the partner institution. It's a working prototype that runs with test data.
+>
+> ### My contributions (Adolfo Hernández Sánchez)
+> I owned 5 features from issue to merged PR (React/TypeScript + Node.js/Express on MySQL):
+>
+> | Feature | What I built | PR |
+> |---|---|---|
+> | **Roll call** | Per-shift attendance screen ([`PaseLista.tsx`](frontend/src/paginas/PaseLista.tsx)) | [#22](https://github.com/brinez-juan/SIRAI-equipo-4/pull/22) |
+> | **Absence follow-up inbox** | Inbox and case detail view ([`Bandeja.tsx`](frontend/src/paginas/Bandeja.tsx), [`Seguimiento.tsx`](frontend/src/paginas/Seguimiento.tsx)) | [#33](https://github.com/brinez-juan/SIRAI-equipo-4/pull/33) |
+> | **Printable case file** | REST endpoint + PDF/print view ([`expediente.js`](backend/rutas/expediente.js), [`Expediente.tsx`](frontend/src/paginas/Expediente.tsx)) | [#35](https://github.com/brinez-juan/SIRAI-equipo-4/pull/35) |
+> | **Audit-log viewer** | Read-only endpoints and admin UI ([`bitacora.js`](backend/rutas/bitacora.js), [`Bitacora.tsx`](frontend/src/recursos/Bitacora.tsx)) | [#41](https://github.com/brinez-juan/SIRAI-equipo-4/pull/41) |
+> | **Accessibility settings** | Themes and visible focus ([`tema.ts`](frontend/src/tema.ts), [`Preferencias.tsx`](frontend/src/recursos/Preferencias.tsx)) | [#48](https://github.com/brinez-juan/SIRAI-equipo-4/pull/48), [#51](https://github.com/brinez-juan/SIRAI-equipo-4/pull/51) |
+>
+> **Security in my endpoints:**
+> - The case file is only available to social work, medical, and director roles. The childcare center is taken from the JWT, never from the request, so a child from another center returns 404.
+> - The case file decrypts the AES-256-GCM notes server-side and leaves out phone numbers. Each read is logged to the hash-chained audit trail as `READ_CONFIDENCIAL`, recording only the IDs viewed.
+> - The audit viewer is `ADMIN_CENTRAL`-only. Its filters use a column whitelist with `escapeId`, `LIKE` wildcards are escaped, results are paginated, and encrypted fields and password hashes are masked.
+>
+> Authentication, Argon2, the encryption layer, and the audit hash chain were built by my teammates.
+
+---
+
 SIRAI es una aplicación web desarrollada para el **ISSSTE**. Registra y da seguimiento a la asistencia de las niñas y los niños en las **212 Estancias de Bienestar y Desarrollo Infantil (EBDI)** en tiempo real, y documenta cada inasistencia: si fue justificada o no, quién dio seguimiento y qué se resolvió.
 
 Proyecto del curso *Integración de Seguridad Informática en Redes y Sistemas de Software* (Tecnológico de Monterrey) — Equipo 4.
